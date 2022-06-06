@@ -1,27 +1,29 @@
 # AngularReact
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.0.
+This project will test using react component inside angular project.
 
-## Development server
+# Q & A
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. What will be the performance impact
+    - TODO: This need to be implemented and test. For example use a list of items(1000) and render them in both angular and react to see the time difference
+2. How to handle design patterns (MVC vs Component)
+    - Need to adhere strict rule of not brining any react stuff to angular side and vice versa. 
+3. How to render angular components inside the react component 
+    - For example if we are using react modal we need to render an angular component inside the react modal. 
+        - As i see this will be expensive call for the dom since we are not relying on virtual dom. But if this is more like a one component we can use it. So the call will be always on the scenario basis.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Findings 
 
-## Build
+- Using multiple `ReactDOM.render` in single page will get into performance issue. 
+    
+    - Can use `createPortal` _need to do a test_
+- Since react use virtual Dom and when angular update a data it might destroy the current component and re-render from the scratch. To avoid this we have to manually handle Angular dom rendering
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+    - This won't be an big issue but has to keep an eye on
+- 
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# Reference 
+- [Calling ReactDOM.render() many many times is slow](https://github.com/facebook/react/issues/12700)
+- [Is it OK to use React.render() multiple times in the DOM](https://stackoverflow.com/questions/31302803/is-it-ok-to-use-react-render-multiple-times-in-the-dom)
