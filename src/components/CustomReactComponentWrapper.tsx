@@ -28,10 +28,14 @@ export class CustomReactComponentWrapperComponent implements OnChanges, OnDestro
     @ViewChild(containerElementName, { static: true }) containerRef!: ElementRef;
 
     @Input() public counter = 10;
+    @Input() public text = '';
+    @Output() public textChange = new EventEmitter<string>();
+
     @Output() public componentClick = new EventEmitter<void>();
 
     constructor() {
         this.handleDivClicked = this.handleDivClicked.bind(this);
+        this.onTextChange = this.onTextChange.bind(this);
     }
 
     public handleDivClicked() {
@@ -53,13 +57,20 @@ export class CustomReactComponentWrapperComponent implements OnChanges, OnDestro
         ReactDOM.unmountComponentAtNode(this.containerRef.nativeElement);
     }
 
+    onTextChange(changeText: any) {
+        if (this.textChange) {
+            this.textChange.emit(changeText);
+            // this.render();
+        }
+    }
+
     private render() {
-        const { counter } = this;
+        const { counter, text } = this;
 
         ReactDOM.render(
             <React.StrictMode>
                 <div>
-                    <CustomReactComponent counter={counter} onClick={this.handleDivClicked} />
+                    <CustomReactComponent onTextChange={this.onTextChange} text={text} counter={counter} onClick={this.handleDivClicked} />
                 </div>
             </React.StrictMode>
             , this.containerRef.nativeElement);

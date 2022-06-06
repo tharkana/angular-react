@@ -10,8 +10,14 @@ export class AppComponent {
 
   public counter = 21;
 
+  public inputText: string = '';
+
   public handleOnClick() {
     this.counter++;
+  }
+
+  public angularTextChange(event:any) {
+    this.inputText = event.target.value;
   }
 
 }
